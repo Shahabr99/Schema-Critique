@@ -14,7 +14,7 @@ CREATE TABLE planets
   orbital_period_in_years FLOAT NOT NULL,
   orbits_around TEXT NOT NULL,
   galaxy TEXT NOT NULL,
-  moons TEXT[]
+  moons TEXT[] ON DELETE SET NULL
 );
 
 INSERT INTO planets
