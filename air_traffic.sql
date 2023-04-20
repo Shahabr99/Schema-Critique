@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS air_traffic
+DROP DATABASE IF EXISTS air_traffic;
 
 CREATE DATABASE air_traffic;
 
@@ -8,7 +8,7 @@ CREATE TABLE passengers
 (
   id SERIAL PRIMARY KEY,
   first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
+  last_name TEXT NOT NULL
 );
 
 CREATE TABLE origin
@@ -22,7 +22,7 @@ CREATE TABLE destinations
 (
   id SERIAL PRIMARY KEY,
   to_city TEXT NOT NULL,
-  to_county TEXT NOT NULL
+  to_country TEXT NOT NULL
 );
 
 CREATE TABLE airlines
@@ -40,7 +40,7 @@ CREATE TABLE flights
   airline_id INTEGER REFERENCES airlines ON DELETE CASCADE,
   passenger_id INTEGER REFERENCES passengers ON DELETE CASCADE,
   origin_id INTEGER REFERENCES origin ON DELETE CASCADE,
-  destination_id INTEGER REFERENCES destination ON DELETE CASCADE
+  destination_id INTEGER REFERENCES destinations ON DELETE CASCADE
 );
 
 
@@ -94,10 +94,16 @@ INSERT INTO flights (passenger_id, seat, departure, arrival, airline_id, origin_
 VALUES (1, '33B', '2018-04-08 09:00:00', '2018-04-08 12:00:00', 1, 1, 1),
 (2, '8A', '2018-12-19 12:45:00', '2018-12-19 16:15:00', 2, 2, 2),
 (3, '12F', '2018-01-02 07:00:00', '2018-01-02 08:03:00', 3, 3, 3),
-(4, '20A', '2018-04-15 16:50:00', '2018-04-15 21:00:00', 3, 4, 4),
+(1, '20A', '2018-04-15 16:50:00', '2018-04-15 21:00:00', 3, 4, 4),
 (5, '23D', '2018-08-01 18:30:00', '2018-08-01 21:50:00', 4, 5, 5),
-(6, '18C', '2018-10-31 01:15:00', '2018-10-31 12:55:00', 5, 6, 6),
-(7, '9E', '2019-02-06 06:00:00', '2019-02-06 07:47:00', 1, 7, 7),
-(8, '1A', '2018-12-22 14:42:00', '2018-12-22 15:56:00', 6, 8, 8),
-(9, '32B', '2019-02-06 16:28:00', '2019-02-06 19:18:00', 6, 9, 9),
-(10, '10D', '2019-01-20 19:30:00', '2019-01-20 22:45:00', 7, 10, 10);
+(2, '18C', '2018-10-31 01:15:00', '2018-10-31 12:55:00', 5, 6, 6),
+(5, '9E', '2019-02-06 06:00:00', '2019-02-06 07:47:00', 1, 7, 7),
+(6, '1A', '2018-12-22 14:42:00', '2018-12-22 15:56:00', 6, 8, 8),
+(5, '32B', '2019-02-06 16:28:00', '2019-02-06 19:18:00', 6, 9, 9),
+(7, '10D', '2019-01-20 19:30:00', '2019-01-20 22:45:00', 7, 10, 10);
+
+
+CREATE INDEX idx_passengers_name ON passengers (first_name, last_name);
+CREATE INDEX idx_origin_city ON origin (from_city);
+CREATE INDEX idx_destinations_city ON destinations (to_city);
+CREATE INDEX idx_flights_departure ON flights (departure);
